@@ -1,6 +1,5 @@
 ﻿using System;
 using Questica.Model;
-using QuesticaAPI.Models;
 
 namespace QuesticaAPI.Responses
 {
@@ -18,24 +17,5 @@ namespace QuesticaAPI.Responses
             success = true;
             error = string.Empty;
         }
-    }
-
-    public class HelloResponse : BaseResponse
-    {
-        public string response_message { get; set; }
-
-        public HelloResponse() : base()
-        {
-            response_message = "Hello from Questica API.";
-        }
-    }
-
-    public class EmployeeResponse : BaseResponse
-    {
-        public EmployeeModel Employee { get; set; }
-    }
-
-    public class EmptyResponse : BaseResponse
-    {
     }
 }
