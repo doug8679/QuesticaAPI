@@ -36,7 +36,7 @@ namespace QuesticaAPI.Modules.Api
                     result.Add(timeCard);
                 }
 
-                return result;
+                return new TimeCardsResponse {TimeCards = result};
             }
         }
 
@@ -44,14 +44,14 @@ namespace QuesticaAPI.Modules.Api
         {
             var entry = this.Bind<TimeCardEntryModel>();
             Console.WriteLine($"Creating entry on project {entry.ProjectID}::{entry.SpecID} for {entry.HourTime} hours.");
-            return new EmptyResponse();
+            return new TimeEntryResponse {TimeEntry = entry};
         }
 
         private object UpdateTimeEntry()
         {
             var entry = this.Bind<TimeCardEntryModel>();
             Console.WriteLine($"Updatein entry on project {entry.ProjectID}::{entry.SpecID} from {entry.TimeDate} to {entry.HourTime} hours.");
-            return new EmptyResponse();
+            return new TimeEntryResponse {TimeEntry = entry};
         }
     }
 }
