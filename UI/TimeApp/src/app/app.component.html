@@ -17,4 +17,7 @@
     <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
   </li>
 </ul>
-
+<br/>
+<h3>
+  Project: <select><option *ngFor="let p of projects" [value]="p.projectID">{{p.projectID}} - {{p.projectName}}</option></select>
+</h3>
