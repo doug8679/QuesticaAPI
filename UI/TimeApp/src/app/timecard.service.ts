@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { TimeResponse } from './time-response';
+import { TimeEntry } from './time-entry';
 
 @Injectable({
   providedIn: 'root'
@@ -27,5 +28,10 @@ export class TimecardService {
     } else {
       return of(this.cards);
     }
+  }
+
+  putEntry(entry: TimeEntry): void {
+    // Eventually, we'll send this to the WebAPI.  For now, just add it to the list of entries...
+    this.cards[0].entries.push(entry);
   }
 }
