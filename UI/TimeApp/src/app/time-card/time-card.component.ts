@@ -4,6 +4,9 @@ import { ProjectsService } from '../projects.service';
 import { Project } from '../project';
 import { ObjectivesService } from '../objectives.service';
 import { Objective } from '../objective';
+import { TimeEntry } from '../time-entry';
+import { TimeentryService } from '../timeentry.service';
+import { TimecardService } from '../timecard.service';
 
 @Component({
   selector: 'app-time-card',
@@ -23,7 +26,8 @@ export class TimeCardComponent implements OnInit {
   })
 
   constructor(private pService: ProjectsService,
-              private oService: ObjectivesService) {}
+              private oService: ObjectivesService,
+              private cService: TimecardService) {}
 
   ngOnInit() {
     this.pService.getProjects().subscribe(items => this.projects = items);
@@ -36,6 +40,21 @@ export class TimeCardComponent implements OnInit {
       console.log(value);
       this.oService.getObjectives(value).subscribe(items=> this.objectives=items);
     });
+  }
+
+  submitTime(): void {
+    console.log("Submit button was pressed.");
+    var entry = new TimeEntry();
+    entry.employeeID = 24;
+    entry.hourTime = this.myGroup.controls['hours'].value;
+    entry.projectID = this.myGroup.controls['project'].value;
+    entry.specID = this.myGroup.controls['objective'].value;
+    entry.comments = this.myGroup.controls['comments'].value;
+    entry.timeDate = new Date();
+    entry.hourType = 41;
+
+    console.log(entry);
+    this.cService.putEntry(entry);
   }
 
 }
