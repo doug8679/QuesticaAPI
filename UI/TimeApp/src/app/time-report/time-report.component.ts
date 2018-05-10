@@ -14,7 +14,8 @@ export class TimeReportComponent implements OnInit {
   card: TimeCard = new TimeCard();
   entries: TimeEntry[];
 
-  constructor(private cService: TimecardService) { }
+  constructor(private cService: TimecardService,
+              private eService: TimeentryService) { }
 
   ngOnInit() {
     this.cService.getCards().subscribe(items => {
@@ -22,6 +23,15 @@ export class TimeReportComponent implements OnInit {
       this.card = items[0];
       this.entries = this.card.entries;
     });
+  }
+
+  deleteEntry(entryId: number){
+    console.log('Attempting to delete time entry: ' + entryId);
+    this.eService.deleteEntry(entryId);
+  }
+
+  editEntry(entry: TimeEntry): void {
+    console.log('Editing entry: ' + entry.timeID + ' in editor...');
   }
 
 }

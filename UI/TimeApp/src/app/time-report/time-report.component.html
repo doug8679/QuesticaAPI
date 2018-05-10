@@ -12,7 +12,8 @@
             <th>Project</th>
             <th>Objective</th>
             <th>Hours</th>
-            <th>Comments</th>
+            <th style="width: 35%;">Comments</th>
+            <th style="width: 10%">Edit</th>
           </tr>
         </thead>
         <tr class="text-center" *ngFor="let e of entries">
@@ -20,7 +21,13 @@
           <td>{{e.projectID}}</td>
           <td>{{e.specID}}</td>
           <td>{{e.hourTime}}</td>
-          <td>{{e.comments}}</td>
+          <td class="text-left" style="word-wrap: break-word;">{{e.comments}}</td>
+          <td>
+            <div class="row center-block">
+              <div class="col center-block"><a (click)="deleteEntry(e.timeID)"><i class="fa fa-trash-o"></i></a></div>
+              <div class="col center-block"><a (click)="editEntry(e)"><i class="fa fa-pencil"></i></a></div>
+            </div>
+          </td>
         </tr>
       </table>
     </div>
