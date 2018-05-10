@@ -32,4 +32,14 @@ export class TimeentryService {
       return of(this.entries);
     }
   }
+
+  putEntry(entry: TimeEntry){
+    // Eventually, we'll send this to the WebAPI.  For now, just add it to the list of entries...
+    this.entries.push(entry);
+  }
+
+  deleteEntry(entryId: number): void {
+    console.log('Service will attempt to delete entry ' + entryId + ' via WebAPI');
+    this.http.delete("http://localhost:5001/api/time/entry/" + entryId).subscribe(response => console.log(response));
+  }
 }
