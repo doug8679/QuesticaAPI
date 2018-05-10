@@ -1,0 +1,28 @@
+<div class="container">
+  <div class="card">
+    <div class="card-header">
+      <h3 class="text-center">Current Time Card Entries</h3>
+      <h5 class="text-center"><i>{{card.payPeriodStartDate | date:'MMM dd yyyy'}} - {{card.payPeriodEndDate | date:'MMM dd yyyy'}}</i></h5>
+    </div>
+    <div class="card-body">
+      <table class="table table-bordered table-striped">
+        <thead class="thead-dark">
+          <tr class="text-center">
+            <th>Date</th>
+            <th>Project</th>
+            <th>Objective</th>
+            <th>Hours</th>
+            <th>Comments</th>
+          </tr>
+        </thead>
+        <tr class="text-center" *ngFor="let e of entries">
+          <td>{{e.timeDate | date:'yyyy-MM-dd'}}</td>
+          <td>{{e.projectID}}</td>
+          <td>{{e.specID}}</td>
+          <td>{{e.hourTime}}</td>
+          <td>{{e.comments}}</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
