@@ -3,6 +3,7 @@ import { TimeCard } from '../time-card';
 import { TimeEntry } from '../time-entry';
 import { TimeentryService } from '../timeentry.service';
 import { TimecardService } from '../timecard.service';
+import { SessionStorageService } from 'angular-web-storage';
 
 @Component({
   selector: 'app-time-report',
@@ -11,14 +12,18 @@ import { TimecardService } from '../timecard.service';
 })
 export class TimeReportComponent implements OnInit {
 
+  empName = '';
   card: TimeCard = new TimeCard();
   entries: TimeEntry[];
 
   constructor(private cService: TimecardService,
-              private eService: TimeentryService) { }
+              private eService: TimeentryService,
+              private session: SessionStorageService) { }
 
   ngOnInit() {
-    this.cService.getCards().subscribe(items => {
+    const emp = this.session.get('employee');
+    this.empName = emp.fullName;
+    this.cService.getCards(emp.employeeID).subscribe(items => {
       console.log(items);
       this.card = items[0];
       this.entries = this.card.entries;

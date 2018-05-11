@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { ProjectsService } from './projects.service';
 import { Project } from './project';
+import { SessionStorageService } from 'angular-web-storage';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -12,9 +14,22 @@ export class AppComponent {
 
   projects: Project[];
 
-  constructor(private service: ProjectsService){}
+  constructor(private service: ProjectsService,
+              private session: SessionStorageService,
+              private router: Router) { }
 
   ngOnInit() {
-    this.service.getProjects().subscribe(items => {this.projects = items;});
+    let proj = this.session.get('projects');
+    if (!proj) {
+      this.service.getProjects().subscribe(items => {
+        proj = items;
+        this.session.set('projects', proj);
+      });
+    }
+  }
+
+  doLogout(): void {
+    this.session.remove('employee');
+    this.router.navigate(['/']);
   }
 }

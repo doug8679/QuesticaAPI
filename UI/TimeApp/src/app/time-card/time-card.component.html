@@ -1,44 +1,46 @@
 <div class="container">
-    <form [formGroup]="myGroup">
-<div class="card">
-  <div class="card-header">
-    <div class="col-12 text-center">
-        <h2>Time Card Input</h2>
-    </div>
-  </div>
-  <div class="card-body">
-    <div class="row">
-      <div class="col-4">
-        <label class="center-block">Project:
+   <form [formGroup]="myGroup">
+      <div class="card">
+         <div class="card-header">
+            <div class="col-12 text-center">
+               <h2>Time Card Input</h2>
+            </div>
+         </div>
+         <div class="card-body">
+            <div class="row">
+               <div class="col-4">
+                  <label class="center-block">Project:
           <select class="form-control" formControlName="project">
             <option *ngFor="let p of projects" [value]="p.projectID">{{p.projectID}} - {{p.projectName}}</option>
           </select>
         </label>
-      </div>
-      <div class="col-4">
-        <label class="center-block">Objective:
+               </div>
+               <div class="col-4">
+                  <label class="center-block">Objective:
           <select class="form-control" formControlName="objective">
             <option *ngFor="let o of objectives" [value]="o.specID">{{o.specID}} - {{o.objectiveName}}</option>
           </select>
         </label>
-      </div>
-      <div class="col-4">
-        <label class="center-block">Hours:
+               </div>
+               <div class="col-4">
+                  <label class="center-block">Hours:
           <input class="form-control text-right" formControlName="hours">
         </label>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-12">
-        <label class="center-block" style="min-width: 100%">Comments:
+               </div>
+            </div>
+            <div class="row">
+               <div class="col-12">
+                  <label class="center-block" style="min-width: 100%">Comments:
           <textarea formControlName="comments" class="form-control" style="min-width: 100%;width: 100%" ></textarea>
         </label>
+               </div>
+            </div>
+         </div>
+         <div class="card-footer text-right">
+            <button type="submit" class="btn btn-primary" (click)="submitTime()">Submit</button>
+         </div>
       </div>
-    </div>
+   </form>
 </div>
-<div class="card-footer text-right">
-  <button type="submit" class="btn btn-primary" (click)="submitTime()">Submit</button>
-</div>
-</div>
-</form>
-</div>
+<br/>
+<app-time-report></app-time-report>

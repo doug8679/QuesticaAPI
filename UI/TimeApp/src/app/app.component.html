@@ -1,7 +1,13 @@
 <div class="container text-center">
-  <h1 class="display-1">Welcome to Time Card V2!</h1>
+   <div class="row">
+      <h1 class="display-1">Welcome to Time Card V2!</h1>
+   </div>
+   <div class="row text-center center-block">
+      <button class="btn btn-primary" (click)="doLogout()">Logout</button>
+   </div>
 </div>
 <br/>
-<app-time-card></app-time-card>
+<router-outlet></router-outlet>>
+<!--<app-time-card></app-time-card>
 <br/>
-<app-time-report></app-time-report>
+<app-time-report></app-time-report>-->

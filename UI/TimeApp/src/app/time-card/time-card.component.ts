@@ -23,7 +23,7 @@ export class TimeCardComponent implements OnInit {
     objective: new FormControl(),
     hours: new FormControl(),
     comments: new FormControl()
-  })
+  });
 
   constructor(private pService: ProjectsService,
               private oService: ObjectivesService,
@@ -36,15 +36,15 @@ export class TimeCardComponent implements OnInit {
   }
 
   onChange(): void {
-    this.myGroup.controls['project'].valueChanges.subscribe((value)=> {
+    this.myGroup.controls['project'].valueChanges.subscribe((value) => {
       console.log(value);
-      this.oService.getObjectives(value).subscribe(items=> this.objectives=items);
+      this.oService.getObjectives(value).subscribe(items => this.objectives = items);
     });
   }
 
   submitTime(): void {
-    console.log("Submit button was pressed.");
-    var entry = new TimeEntry();
+    console.log('Submit button was pressed.');
+    const entry = new TimeEntry();
     entry.employeeID = 24;
     entry.hourTime = this.myGroup.controls['hours'].value;
     entry.projectID = this.myGroup.controls['project'].value;

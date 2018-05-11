@@ -1,6 +1,8 @@
 ﻿using System;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace QuesticaAPI
 {
@@ -9,6 +11,36 @@ namespace QuesticaAPI
         static void Main(string[] args)
         {
             Console.WriteLine(Convert.ToBase64String(EncryptString("Ell@Fay3")));
+            using (var md5 = MD5.Create())
+            {
+                byte[] input = Encoding.ASCII.GetBytes("Ell@Fay3");
+                byte[] hash = md5.ComputeHash(input);
+                Console.WriteLine($"MD5: {Convert.ToBase64String(hash)}");
+            }
+            using (var sha = SHA1.Create())
+            {
+                byte[] input = Encoding.ASCII.GetBytes("Ell@Fay3");
+                byte[] hash = sha.ComputeHash(input);
+                Console.WriteLine($"Sha1: {Convert.ToBase64String(hash)}");
+            }
+            using (var sha = SHA256.Create())
+            {
+                byte[] input = Encoding.ASCII.GetBytes("Ell@Fay3");
+                byte[] hash = sha.ComputeHash(input);
+                Console.WriteLine($"SHA256: {Convert.ToBase64String(hash)}");
+            }
+            using (var md5 = SHA384.Create())
+            {
+                byte[] input = Encoding.ASCII.GetBytes("Ell@Fay3");
+                byte[] hash = md5.ComputeHash(input);
+                Console.WriteLine($"SHA384: {Convert.ToBase64String(hash)}");
+            }
+            using (var md5 = SHA512.Create())
+            {
+                byte[] input = Encoding.ASCII.GetBytes("Ell@Fay3");
+                byte[] hash = md5.ComputeHash(input);
+                Console.WriteLine($"SHA512: {Convert.ToBase64String(hash)}");
+            }
 
             var host = new WebHostBuilder()
                 .UseKestrel()
