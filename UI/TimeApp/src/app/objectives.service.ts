@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { tap, map } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
 import { Objective } from './objective';
 
@@ -10,7 +10,7 @@ import { Objective } from './objective';
 })
 export class ObjectivesService {
 
-  objectiveUrl: string = "http://localhost:5001/api/projects/"
+  objectiveUrl = 'http://localhost:5001/api/projects/';
 
   projectId: number;
   objectives: Objective[];
@@ -19,9 +19,9 @@ export class ObjectivesService {
 
   getObjectives(projectId): Observable<Objective[]> {
     console.log('Loading objectives for projectId: ' + projectId);
-    if (!this.objectives || this.projectId != projectId) {
+    if (!this.objectives || this.projectId !== projectId) {
       this.projectId = projectId;
-      var url = this.objectiveUrl + projectId;
+      const url = this.objectiveUrl + projectId;
       return this.http.get<Objective[]>(url)
         .pipe(
           tap(items => this.objectives = items)

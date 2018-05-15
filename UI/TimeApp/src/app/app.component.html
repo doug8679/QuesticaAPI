@@ -2,8 +2,18 @@
    <div class="row">
       <h1 class="display-1">Welcome to Time Card V2!</h1>
    </div>
-   <div class="row text-center center-block">
-      <button class="btn btn-primary" (click)="doLogout()">Logout</button>
+   <div class="row" *ngIf="isLoggedIn()">
+      <div class="col-11 text-left">
+         <label><b>Job Class: </b>
+              <select class="form-control form-control-sm" (change)="jobCodeChanged($event.target.value)" [value]="this.session.get('jobCode')?.hourID">
+                  <option value="" class="disabled" selected="selected">Select your job code</option>
+                  <option *ngFor="let c of job" [value]="c.hourID">{{c.hourID}} - {{c.hourDescription}}</option>
+              </select>
+          </label>
+      </div>
+      <div class="col-1">
+         <button class="btn btn-primary float-right" (click)="doLogout()">Logout</button>
+      </div>
    </div>
 </div>
 <br/>

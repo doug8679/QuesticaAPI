@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
@@ -13,6 +14,7 @@ import { TimeentryService } from './timeentry.service';
 import { TimeCardComponent } from './time-card/time-card.component';
 import { TimeReportComponent } from './time-report/time-report.component';
 import { LoginComponent } from './login/login.component';
+import { JobClassService } from './job-class.service';
 
 const appRoutes: Routes = [
   { path: '', component: LoginComponent },
@@ -31,13 +33,15 @@ const appRoutes: Routes = [
     HttpClientModule,
     ReactiveFormsModule,
     AngularWebStorageModule,
+    NgbModule.forRoot(),
     RouterModule.forRoot(appRoutes, { enableTracing: true})
   ],
   providers: [
     ObjectivesService,
     ProjectsService,
     TimecardService,
-    TimeentryService
+    TimeentryService,
+    JobClassService
   ],
   bootstrap: [AppComponent]
 })

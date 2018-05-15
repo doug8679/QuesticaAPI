@@ -8,29 +8,42 @@
          </div>
          <div class="card-body">
             <div class="row">
-               <div class="col-4">
-                  <label class="center-block">Project:
+               <div class="col-3">
+                  <label class="center-block"><b>Date:</b>
+                    <div class="input-group mb-2">
+                        <input class="form-control" placeholder="yyyy-mm-dd" name="dp" ngbDatepicker #d="ngbDatepicker" formControlName="date">
+                        <div class="input-group-append">
+                          <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
+                            <i class="fa fa-calendar" style="width: 1.2rem; height: 1rem; cursor: pointer;"></i>
+                          </button>
+                        </div>
+                    </div>
+                  </label>
+               </div>
+
+               <div class="col-3">
+                  <label class="center-block"><b>Project:</b>
           <select class="form-control" formControlName="project">
             <option *ngFor="let p of projects" [value]="p.projectID">{{p.projectID}} - {{p.projectName}}</option>
           </select>
         </label>
                </div>
-               <div class="col-4">
-                  <label class="center-block">Objective:
+               <div class="col-3">
+                  <label class="center-block"><b>Objective:</b>
           <select class="form-control" formControlName="objective">
             <option *ngFor="let o of objectives" [value]="o.specID">{{o.specID}} - {{o.objectiveName}}</option>
           </select>
         </label>
                </div>
-               <div class="col-4">
-                  <label class="center-block">Hours:
+               <div class="col-3">
+                  <label class="center-block"><b>Hours:</b>
           <input class="form-control text-right" formControlName="hours">
         </label>
                </div>
             </div>
             <div class="row">
                <div class="col-12">
-                  <label class="center-block" style="min-width: 100%">Comments:
+                  <label class="center-block" style="min-width: 100%"><b>Comments:</b>
           <textarea formControlName="comments" class="form-control" style="min-width: 100%;width: 100%" ></textarea>
         </label>
                </div>
@@ -43,4 +56,4 @@
    </form>
 </div>
 <br/>
-<app-time-report></app-time-report>
+<app-time-report (entry)="editEntry($event)"></app-time-report>

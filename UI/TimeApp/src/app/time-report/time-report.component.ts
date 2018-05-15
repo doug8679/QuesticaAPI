@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { TimeCard } from '../time-card';
 import { TimeEntry } from '../time-entry';
 import { TimeentryService } from '../timeentry.service';
 import { TimecardService } from '../timecard.service';
 import { SessionStorageService } from 'angular-web-storage';
+import { Project } from '../project';
+import { ObjectivesService } from '../objectives.service';
 
 @Component({
   selector: 'app-time-report',
@@ -11,6 +13,7 @@ import { SessionStorageService } from 'angular-web-storage';
   styleUrls: ['./time-report.component.css']
 })
 export class TimeReportComponent implements OnInit {
+  @Output() entry = new EventEmitter<TimeEntry>();
 
   empName = '';
   card: TimeCard = new TimeCard();
@@ -18,6 +21,7 @@ export class TimeReportComponent implements OnInit {
 
   constructor(private cService: TimecardService,
               private eService: TimeentryService,
+              private oService: ObjectivesService,
               private session: SessionStorageService) { }
 
   ngOnInit() {
@@ -30,13 +34,14 @@ export class TimeReportComponent implements OnInit {
     });
   }
 
-  deleteEntry(entryId: number){
+  deleteEntry(entryId: number) {
     console.log('Attempting to delete time entry: ' + entryId);
     this.eService.deleteEntry(entryId);
+    this.entries = this.entries.filter(e => e.timeID !== entryId);
   }
 
   editEntry(entry: TimeEntry): void {
     console.log('Editing entry: ' + entry.timeID + ' in editor...');
+    this.entry.emit(entry);
   }
-
 }

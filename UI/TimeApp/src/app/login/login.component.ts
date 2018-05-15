@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { tap } from 'rxjs/operators';
 import { SessionStorageService } from 'angular-web-storage';
 import { Router } from '@angular/router';
+import { EmployeeResponse } from '../employee-response';
 
 @Component({
   selector: 'app-login',
@@ -38,7 +39,7 @@ export class LoginComponent implements OnInit {
     console.log('Sending login request: ');
     console.log(body);
     console.log('Attempting to log into the time card app...');
-    this.http.post('http://localhost:5001/api/login', body).subscribe(response => {
+    this.http.post('http://localhost:5001/api/login', body).subscribe((response: EmployeeResponse) => {
       this.session.set('employee', response.employee);
       console.log(this.session.get('employee'));
       // Send to input screen...
@@ -49,7 +50,7 @@ export class LoginComponent implements OnInit {
   encryptString(value: string): string {
     value = value.padEnd(0x19);
     length = value.length;
-    let buff: number[] = [length];
+    const buff: number[] = [length];
     const num2 = 150;
     const num3 = 0x9b;
     const num4 = 0xcf;

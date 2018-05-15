@@ -8,4 +8,8 @@ export class TimeEntry {
     hourTime: number;
     employeeID: number;
     comments: string;
+
+    constructor() {
+        this.timeDate = new Date();
+    }
 }

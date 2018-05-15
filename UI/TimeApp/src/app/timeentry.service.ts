@@ -10,13 +10,13 @@ import { TimeResponse } from './time-response';
 })
 export class TimeentryService {
 
-  entryUrl: string = "http://localhost:5001/api/time/24";
+  entryUrl = 'http://localhost:5001/api/time/24';
   entries: TimeEntry[];
 
   constructor(private http: HttpClient) { }
 
   getEntries(): Observable<TimeEntry[]> {
-    if (!this.entries){
+    if (!this.entries) {
       return this.http.get(this.entryUrl)
         .pipe(
           map((obj: TimeResponse) => {
@@ -25,7 +25,7 @@ export class TimeentryService {
           }),
           tap(obj => {
             console.log(obj);
-            console.log(this.entries)
+            console.log(this.entries);
           })
         );
     } else {
@@ -33,13 +33,14 @@ export class TimeentryService {
     }
   }
 
-  putEntry(entry: TimeEntry){
+  putEntry(entry: TimeEntry) {
     // Eventually, we'll send this to the WebAPI.  For now, just add it to the list of entries...
+    this.http.put('http://localhost:5001/api/time/entry', entry).subscribe(response => console.log(response));
     this.entries.push(entry);
   }
 
   deleteEntry(entryId: number): void {
     console.log('Service will attempt to delete entry ' + entryId + ' via WebAPI');
-    this.http.delete("http://localhost:5001/api/time/entry/" + entryId).subscribe(response => console.log(response));
+    this.http.delete('http://localhost:5001/api/time/entry/' + entryId).subscribe(response => console.log(response));
   }
 }
