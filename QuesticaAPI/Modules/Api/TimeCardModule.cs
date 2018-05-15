@@ -42,9 +42,21 @@ namespace QuesticaAPI.Modules.Api
 
         private object PutTimeEntry()
         {
-            var entry = this.Bind<TimeCardEntryModel>();
-            Console.WriteLine($"Creating entry on project {entry.ProjectID}::{entry.SpecID} for {entry.HourTime} hours.");
-            return new TimeEntryResponse {TimeEntry = entry};
+            var result = new TimeEntryResponse();
+            try
+            {
+                var entry = this.Bind<TimeCardEntryModel>();
+                Console.WriteLine(
+                    $"Creating entry on project {entry.ProjectID}::{entry.SpecID} for {entry.HourTime} hours.");
+                result.TimeEntry = entry;
+            }
+            catch (Exception ex)
+            {
+                result.success = false;
+                result.error = ex.ToString();
+            }
+
+            return result;
         }
 
         private object UpdateTimeEntry()
