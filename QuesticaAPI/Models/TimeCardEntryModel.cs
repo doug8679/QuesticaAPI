@@ -50,5 +50,23 @@ namespace QuesticaAPI.Models
                 TimeID = soruce.TimeID
             };
         }
+
+        public static implicit operator TimeCardEntry(TimeCardEntryModel soruce)
+        {
+            return new TimeCardEntry
+            {
+                Comments = soruce.Comments,
+                EmpNumber = soruce.EmpNumber,
+                EmployeeID = soruce.EmployeeID,
+                ProjectID = soruce.ProjectID,
+                SpecID = soruce.SpecID,
+                TimePeriodID = soruce.TimePeriodID,
+                HourRate = soruce.HourRate,
+                HourTime = soruce.HourTime,
+                HourType = soruce.HourType,
+                TimeDate = soruce.TimeDate,
+                TimeID = soruce.TimeID
+            };
+        }
     }
 }

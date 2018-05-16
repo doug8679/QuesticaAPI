@@ -1,15 +1,19 @@
 <div class="container text-center">
    <div class="row">
-      <h1 class="display-1">Welcome to Time Card V2!</h1>
+      <div class="col">
+         <h1 class="display-1">{{title}}</h1>
+      </div>
    </div>
    <div class="row" *ngIf="isLoggedIn()">
       <div class="col-11 text-left">
-         <label><b>Job Class: </b>
-              <select class="form-control form-control-sm" (change)="jobCodeChanged($event.target.value)" [value]="this.session.get('jobCode')?.hourID">
-                  <option value="" class="disabled" selected="selected">Select your job code</option>
-                  <option *ngFor="let c of job" [value]="c.hourID">{{c.hourID}} - {{c.hourDescription}}</option>
+         <form class="form inline-form" [formGroup]="jobCodeForm">
+            <label><b>Job Class:</b>
+              <select class="form-control form-control-sm" formControlName="jobCode" [compareWith]="compareFn">
+                  <option [ngValue]="" disabled>Select your job code</option>
+                  <option *ngFor="let c of job" [ngValue]="c">{{c.hourDescription}}</option>
               </select>
           </label>
+         </form>
       </div>
       <div class="col-1">
          <button class="btn btn-primary float-right" (click)="doLogout()">Logout</button>
@@ -17,7 +21,4 @@
    </div>
 </div>
 <br/>
-<router-outlet></router-outlet>>
-<!--<app-time-card></app-time-card>
-<br/>
-<app-time-report></app-time-report>-->
+<router-outlet></router-outlet>

@@ -8,6 +8,7 @@ import { TimeEntry } from '../time-entry';
 import { TimeentryService } from '../timeentry.service';
 import { TimecardService } from '../timecard.service';
 import { SessionStorageService } from 'angular-web-storage';
+import { JobCode } from '../job-code';
 
 @Component({
   selector: 'app-time-card',
@@ -58,15 +59,17 @@ export class TimeCardComponent implements OnInit {
 
   submitTime(): void {
     console.log('Submit button was pressed.');
-    // const entry = new TimeEntry();
-    // entry.employeeID = 24;
+    const jobCode: JobCode = this.session.get('jobCode');
     this.entry.hourTime = this.myGroup.controls['hours'].value;
     this.entry.projectID = this.myGroup.controls['project'].value;
     this.entry.specID = this.myGroup.controls['objective'].value;
     this.entry.comments = this.myGroup.controls['comments'].value;
-    // entry.timeDate = new Date();
-    this.entry.hourType = 41;
-
+    const dte = this.myGroup.controls['date'].value;
+    this.entry.timeDate = new Date(dte.year, dte.month - 1, dte.day, 0, 0, 0, 0);
+    this.entry.hourType = jobCode.hourID;
+    this.entry.hourRate = jobCode.hourCost;
+    this.entry.timePeriodID = this.cService.cards[0].timePeriodID;
+    this.entry.empNumber = this.session.get('employee').empNumber;
     console.log(this.entry);
     this.cService.putEntry(this.entry);
     this.resetForm();

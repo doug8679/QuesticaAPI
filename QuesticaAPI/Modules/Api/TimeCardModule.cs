@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
+using System.Data.Entity.Core.Metadata.Edm;
 using System.Linq;
 using Nancy.ModelBinding;
 using Questica.Model;
@@ -20,8 +22,23 @@ namespace QuesticaAPI.Modules.Api
 
         private object DeleteTimeEntry(int timeId)
         {
-            Console.WriteLine($"Deleting time entry for id ({timeId})...");
-            return new EmptyResponse();
+            var result = new EmptyResponse();
+            try
+            {
+                Console.WriteLine($"Deleting time entry for id ({timeId})...");
+                using (var db = new TimeData())
+                {
+                    var entry = db.TimeCardEntries.Find(timeId);
+                    db.TimeCardEntries.Remove(entry);
+                    db.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                result.success = false;
+                result.error = ex.ToString();
+            }
+            return result;
         }
 
         private object ListTimeEntries(int employeeId)
@@ -46,8 +63,15 @@ namespace QuesticaAPI.Modules.Api
             try
             {
                 var entry = this.Bind<TimeCardEntryModel>();
+                entry.TimeDate = entry.TimeDate.Date;
+                using (var db = new TimeData())
+                {
+                    var nueEntry = db.TimeCardEntries.Add(entry);
+                    db.SaveChanges();
+                    entry = nueEntry;
+                }
                 Console.WriteLine(
-                    $"Creating entry on project {entry.ProjectID}::{entry.SpecID} for {entry.HourTime} hours.");
+                    $"Creating entry {entry.TimeID} on project {entry.ProjectID}::{entry.SpecID} for {entry.HourTime} hours.");
                 result.TimeEntry = entry;
             }
             catch (Exception ex)
@@ -61,9 +85,40 @@ namespace QuesticaAPI.Modules.Api
 
         private object UpdateTimeEntry()
         {
-            var entry = this.Bind<TimeCardEntryModel>();
-            Console.WriteLine($"Updatein entry on project {entry.ProjectID}::{entry.SpecID} from {entry.TimeDate} to {entry.HourTime} hours.");
-            return new TimeEntryResponse {TimeEntry = entry};
+            var result = new TimeEntryResponse();
+            try
+            {
+                var entry = this.Bind<TimeCardEntryModel>();
+                entry.TimeDate = entry.TimeDate.Date;
+                Console.WriteLine($"Updating entry on project {entry.ProjectID}::{entry.SpecID} from {entry.TimeDate} to {entry.HourTime} hours.");
+                using (var db = new TimeData())
+                {
+                    var timeEntry = db.TimeCardEntries.Find(entry.TimeID);
+                    if (timeEntry != null)
+                    {
+                        timeEntry.TimeDate = entry.TimeDate;
+                        timeEntry.ProjectID = entry.ProjectID;
+                        timeEntry.SpecID = entry.SpecID;
+                        timeEntry.HourTime = entry.HourTime;
+                        timeEntry.Comments = entry.Comments;
+                        db.SaveChanges();
+                    }
+                    else
+                    {
+                        result.success = false;
+                        result.error = $"Could not locate time card entry for TimeID {entry.TimeID}.";
+                    }
+                }
+
+                result.TimeEntry = entry;
+            }
+            catch (Exception ex)
+            {
+                result.success = false;
+                result.error = ex.ToString();
+            }
+
+            return result;
         }
     }
 }

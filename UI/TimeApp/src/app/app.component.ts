@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { ProjectsService } from './projects.service';
 import { Project } from './project';
 import { SessionStorageService } from 'angular-web-storage';
 import { Router } from '@angular/router';
 import { JobClassService } from './job-class.service';
 import { JobCode } from './job-code';
+import { Employee } from './employee';
 
 @Component({
   selector: 'app-root',
@@ -12,8 +14,12 @@ import { JobCode } from './job-code';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  title = 'app';
+  title = 'Welcome to TimeCard V2!';
 
+  jobCodeForm = new FormGroup({
+    jobCode: new FormControl()
+  });
+  myJobCode = '';
   job: JobCode[];
   projects: Project[];
 
@@ -32,6 +38,24 @@ export class AppComponent implements OnInit {
     }
 
     this.getJobCodes();
+
+    this.jobCodeForm.controls['jobCode'].setValue(this.session.get('jobCode'));
+    this.jobCodeForm.controls['jobCode'].valueChanges.subscribe((value: JobCode) => {
+      this.session.set('jobCode', value);
+    });
+
+    this.makeTitle();
+  }
+
+  makeTitle() {
+    const emp: Employee = this.session.get('employee');
+    if (emp) {
+      this.title = 'Welcome, ' + emp.empFirstName + '!';
+    }
+  }
+
+  compareFn(c1: JobCode, c2: JobCode): boolean {
+    return c1 && c2 ? c1.hourID === c2.hourID : c1 === c2;
   }
 
   getJobCodes() {
@@ -44,14 +68,10 @@ export class AppComponent implements OnInit {
     }
   }
 
-  jobCodeChanged(jobCode) {
-    console.log('Job code was changed to: ' + jobCode);
-    this.session.set('jobCode', this.job.find(j => j.hourID === jobCode));
-  }
-
   doLogout(): void {
     this.session.remove('jobCodes');
     this.session.remove('employee');
+    this.title = 'Welcome to TimeCard V2!';
     this.router.navigate(['/']);
   }
 

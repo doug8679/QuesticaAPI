@@ -15,7 +15,7 @@ export class JobClassService {
 
   getJobCodes(): Observable<JobCode[]> {
     if (!this.jobs) {
-      return this.http.get<JobCode[]>('http://localhost:5001/api/job-codes')
+      return this.http.get<JobCode[]>('http://192.168.123.155:5001/api/job-codes')
         .pipe(
           map((response: any) => this.jobs = response.jobCodes.filter(j => j.hourActive))
         );

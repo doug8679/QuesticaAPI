@@ -17,7 +17,7 @@ export class TimecardService {
 
   getCards(id: number): Observable<TimeCard[]> {
     if (!this.cards) {
-      return this.http.get('http://localhost:5001/api/time/' + id)
+      return this.http.get('http://192.168.123.155:5001/api/time/' + id)
         .pipe(
           map((obj: TimeResponse) => this.cards = obj.timeCards),
           tap(obj => {
@@ -33,11 +33,14 @@ export class TimecardService {
   putEntry(entry: TimeEntry): void {
     if (this.cards[0].entries.find(e => e.timeID === entry.timeID)) {
       console.log('updating existing entry...');
-      this.http.post('http://localhost:5001/api/time/entry', entry).subscribe(response => console.log(response));
+      this.http.post('http://192.168.123.155:5001/api/time/entry', entry).subscribe(response => console.log(response));
     } else {
       // Eventually, we'll send this to the WebAPI.  For now, just add it to the list of entries...
-      this.http.put('http://localhost:5001/api/time/entry', entry).subscribe(response => console.log(response));
-      this.cards[0].entries.push(entry);
+      this.http.put('http://192.168.123.155:5001/api/time/entry', entry).subscribe(
+        (response: any) => {
+          console.log(response);
+          this.cards[0].entries.push(response.timeEntry);
+        });
     }
   }
 }

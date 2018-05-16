@@ -10,7 +10,7 @@ import { Project } from './project';
 })
 export class ProjectsService {
 
-  projectUrl: string = "http://localhost:5001/api/projects";
+  projectUrl: string = 'http://192.168.123.155:5001/api/projects';
 
   projects: Project[];
 

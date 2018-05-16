@@ -10,7 +10,7 @@ import { Objective } from './objective';
 })
 export class ObjectivesService {
 
-  objectiveUrl = 'http://localhost:5001/api/projects/';
+  objectiveUrl = 'http://192.168.123.155:5001/api/projects/';
 
   projectId: number;
   objectives: Objective[];

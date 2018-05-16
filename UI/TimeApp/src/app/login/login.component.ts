@@ -39,7 +39,7 @@ export class LoginComponent implements OnInit {
     console.log('Sending login request: ');
     console.log(body);
     console.log('Attempting to log into the time card app...');
-    this.http.post('http://localhost:5001/api/login', body).subscribe((response: EmployeeResponse) => {
+    this.http.post('http://192.168.123.155:5001/api/login', body).subscribe((response: EmployeeResponse) => {
       this.session.set('employee', response.employee);
       console.log(this.session.get('employee'));
       // Send to input screen...
